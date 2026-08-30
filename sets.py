@@ -3,11 +3,11 @@ from time import sleep as tsleep
 
 class CharacterSet:
     def __init__(self, chars: Iterable, delay: float | int) -> None:
-        self.characters = iter(chars)
+        self.characters: Iterable = chars
         self.delay = delay
 
     def yield_delay(self):
-        for character in self.characters:
+        for character in iter(self.characters):
             yield character
             tsleep(self.delay)
 
@@ -16,7 +16,7 @@ class CharacterSet:
 
 
 class Line:
-    def __init__(self, sets: list[CharacterSet], delay_between: float | None) -> None:
+    def __init__(self, sets: list[CharacterSet], delay_between: float, cancel_last_delay: bool = False) -> None:
         self.sets = sets
         self.delay_between = delay_between
 
@@ -25,10 +25,8 @@ class Line:
             for i in st:
                 print(i, end='', flush=True)
 
-            try:
-                tsleep(self.delay_between)
-            except ValueError:
-                break
+
+
 
 def main() -> None:
     a = Line([CharacterSet("Hello ", 0.2), CharacterSet("World", 0.5)])
