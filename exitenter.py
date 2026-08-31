@@ -5,6 +5,8 @@ from time import sleep as tsleep
 
 class ExitEnter(Song):
     def __init__(self) -> None:
+
+        #INTRO
         self._intro_delays: dict[str, int | float] = {}
 
         self._intro_delays['intro default delay'] = 0.1
@@ -13,6 +15,7 @@ class ExitEnter(Song):
         self._intro_delays['intro swing'] = self._intro_delays['intro default wait lines']-0.25
         self._intro_delays['intro thirds'] = self._intro_delays['intro swing']-0.05
         self._intro_delays['intro slightly slower'] = self._intro_delays['intro half time']+0.03
+        self._intro_delays['intro end'] = 2.5
 
         self._intro_lines: list[Line | float | int] = [Line([CharacterSet("The sun", self._intro_delays['intro default delay']),
                                                                   CharacterSet(" says leave\n", self._intro_delays['intro half time']),
@@ -27,10 +30,22 @@ class ExitEnter(Song):
                                                                 ],
                                                             self._intro_delays['intro swing']),
 
-                                                       self._intro_delays['intro swing'],
+                                                       self._intro_delays['intro thirds'],
 
                                                        Line([CharacterSet(" ahead", self._intro_delays['intro default delay']),
-                                                            CharacterSet(" of me\n", self._intro_delays['intro default delay'])]
+                                                                  CharacterSet(" of me\n", self._intro_delays['intro default delay']),
+                                                                  CharacterSet("The mo", self._intro_delays['intro slightly slower']),
+                                                                  CharacterSet("ment flew\n", self._intro_delays['intro half time']),
+                                                                  CharacterSet("They al", self._intro_delays['intro slightly slower']),
+                                                                  CharacterSet("ways do\n", self._intro_delays['intro slightly slower']),
+                                                                  CharacterSet("Seems one", self._intro_delays['intro default delay']),
+                                                                  CharacterSet(" is some", self._intro_delays['intro half time']),
+                                                                  CharacterSet("times more", self._intro_delays['intro half time']),
+                                                                  CharacterSet(" than two", self._intro_delays['intro half time']),],
+                                                            self._intro_delays['intro default wait lines']),
+
+                                                       self._intro_delays['intro end']]
+        #/INTRO
 
 
     @staticmethod
@@ -39,7 +54,6 @@ class ExitEnter(Song):
 
     def intro(self, filename: str) -> None:
         local_intro_delay: int | float = 20.2
-        local_intro1_delay: int | float = 0.15
 
         self._async_sound(filename)
 
@@ -50,8 +64,6 @@ class ExitEnter(Song):
                 line.print_delay()
             except AttributeError:
                 tsleep(line)
-
-        tsleep(1) #debug
 
 def main():
     ee: ExitEnter = ExitEnter()
