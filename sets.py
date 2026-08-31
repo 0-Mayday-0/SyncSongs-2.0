@@ -1,4 +1,6 @@
 from collections.abc import Iterable
+from abc import ABC, abstractmethod
+from winsound import PlaySound,  SND_ASYNC
 from time import sleep as tsleep
 
 class CharacterSet:
@@ -37,6 +39,17 @@ class Line:
             except AssertionError:
                 if self._cancel_last_delay:
                     break
+
+class Song(ABC):
+    @abstractmethod
+    def __init__(self) -> None:
+        self._intro_lines: list[Line] | dict[str, Line]
+        pass
+
+    @abstractmethod
+    def intro(self, filename: str) -> None:
+        PlaySound(filename, flags=SND_ASYNC)
+        pass
 
 def main() -> None:
     a = Line([CharacterSet("Hello ", 0.2), CharacterSet("World", 0.5)], 5)
