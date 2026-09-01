@@ -55,11 +55,11 @@ class ExitEnter(Song):
         #CHORUS0
         self._chorus0_delays: dict[str, int | float] = {}
 
-        self._chorus0_delays['chorus0 default delay'] = 0.07
+        self._chorus0_delays['chorus0 default delay'] = 0.1
         self._chorus0_delays['chorus0 default wait lines'] = 2.5
 
         self._chorus0_lines: list[Line | float | int] = [Line([CharacterSet("\n\nEverything is made up", self._chorus0_delays['chorus0 default delay']),
-                                                                    CharacterSet("Everything is made up", self._chorus0_delays['chorus0 default delay']),],
+                                                                    CharacterSet("Everything is made up", self._chorus0_delays['chorus0 default delay'])],
                                                             self._chorus0_delays['chorus0 default wait lines'])]
         #/CHORUS0
 
