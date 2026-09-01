@@ -1,7 +1,5 @@
 from sets import CharacterSet, Line, Song
 
-from playsound import playsound
-from threading import Thread
 import pygame
 
 from time import sleep as tsleep
@@ -56,11 +54,23 @@ class ExitEnter(Song):
         self._chorus0_delays: dict[str, int | float] = {}
 
         self._chorus0_delays['chorus0 default delay'] = 0.1
-        self._chorus0_delays['chorus0 default wait lines'] = 2.5
+        self._chorus0_delays['chorus0 very slightly faster'] = self._chorus0_delays['chorus0 default delay']-0.03
+        self._chorus0_delays['chorus0 slightly faster'] = self._chorus0_delays['chorus0 default delay']-0.05
+        self._chorus0_delays['chorus0 default wait lines'] = 3
+        self._chorus0_delays['chorus0 slightly faster wait lines'] = self._chorus0_delays['chorus0 default wait lines']-1
 
-        self._chorus0_lines: list[Line | float | int] = [Line([CharacterSet("\n\nEverything is made up", self._chorus0_delays['chorus0 default delay']),
-                                                                    CharacterSet("Everything is made up", self._chorus0_delays['chorus0 default delay'])],
-                                                            self._chorus0_delays['chorus0 default wait lines'])]
+        self._chorus0_lines: list[Line | float | int] = [Line([CharacterSet("\n\nEverything is made up\n", self._chorus0_delays['chorus0 default delay']),
+                                                                    CharacterSet("Everything is made up\n", self._chorus0_delays['chorus0 default delay']),
+                                                                    CharacterSet("Everything belongs", self._chorus0_delays['chorus0 very slightly faster'])],
+                                                            self._chorus0_delays['chorus0 default wait lines'], cancel_last_delay=True),
+
+                                                         Line([CharacterSet(" to someone else\n", self._chorus0_delays['chorus0 slightly faster']),
+                                                                    CharacterSet("And everyone's", self._chorus0_delays['chorus0 slightly faster'])],
+                                                              self._chorus0_delays['chorus0 slightly faster wait lines'], cancel_last_delay=True),
+
+                                                         Line([CharacterSet(" a world inside themselves", self._chorus0_delays['chorus0 default delay'])],
+                                                              self._chorus0_delays['chorus0 slightly faster wait lines']),
+                                                         ]
         #/CHORUS0
 
     @staticmethod
