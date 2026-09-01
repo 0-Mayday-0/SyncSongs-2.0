@@ -20,7 +20,7 @@ class ExitEnter(Song):
         self._intro_delays['intro swing'] = self._intro_delays['intro default wait lines']-0.25
         self._intro_delays['intro thirds'] = self._intro_delays['intro swing']-0.05
         self._intro_delays['intro slightly slower'] = self._intro_delays['intro half time']+0.03
-        self._intro_delays['intro end'] = 2.2
+        self._intro_delays['intro end'] = 2.55
 
         self._intro_lines: list[Line | float | int] = [Line([CharacterSet("The sun", self._intro_delays['intro default delay']),
                                                                   CharacterSet(" says leave\n", self._intro_delays['intro half time']),
@@ -55,7 +55,7 @@ class ExitEnter(Song):
         #CHORUS0
         self._chorus0_delays: dict[str, int | float] = {}
 
-        self._chorus0_delays['chorus0 default delay'] = 0.15
+        self._chorus0_delays['chorus0 default delay'] = 0.07
         self._chorus0_delays['chorus0 default wait lines'] = 2.5
 
         self._chorus0_lines: list[Line | float | int] = [Line([CharacterSet("Everything is made up", self._chorus0_delays['chorus0 default delay']),
