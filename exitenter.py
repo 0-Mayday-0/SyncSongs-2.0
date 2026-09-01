@@ -64,7 +64,7 @@ class ExitEnter(Song):
         #/CHORUS0
 
     @staticmethod
-    def async_sound(func: Callable) -> Callable:
+    def _async_sound(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs) -> None:
             Thread(target=playsound, args=(args[1],), daemon=True).start()
@@ -72,7 +72,7 @@ class ExitEnter(Song):
 
         return wrapper
 
-    @async_sound
+    @_async_sound
     def intro(self, filename: str) -> None:
         local_intro_delay: int | float = 20.2
 
@@ -86,7 +86,7 @@ class ExitEnter(Song):
             except AttributeError:
                 tsleep(line)
 
-    @async_sound
+    @_async_sound
     def chorus0(self, filename: str) -> None:
         for line in self._chorus0_lines:
             try:
