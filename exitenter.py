@@ -7,7 +7,7 @@ class ExitEnter(Song):
     def __init__(self) -> None:
 
         #INTRO
-        self._intro_delays: dict[str, int | float] = {}
+        self._intro_delays: dict[str, int | float] = {} #can't be made a literal due to self-reference
 
         self._intro_delays['intro default delay'] = 0.1
         self._intro_delays['intro half time'] = self._intro_delays['intro default delay']-0.05
@@ -46,6 +46,9 @@ class ExitEnter(Song):
 
                                                        self._intro_delays['intro end']]
         #/INTRO
+
+        #CHORUS0
+        #/CHORUS0
 
 
     @staticmethod
