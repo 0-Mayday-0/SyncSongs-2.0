@@ -2,6 +2,7 @@ from sets import CharacterSet, Line, Song
 
 from playsound import playsound
 from threading import Thread
+import pygame
 
 from time import sleep as tsleep
 from functools import wraps
@@ -11,6 +12,7 @@ from collections.abc import Callable
 
 class ExitEnter(Song):
     def __init__(self) -> None:
+        pygame.mixer.init()
         #INTRO
         self._intro_delays: dict[str, int | float] = {} #can't be made a literal due to self-reference
 
@@ -20,7 +22,7 @@ class ExitEnter(Song):
         self._intro_delays['intro swing'] = self._intro_delays['intro default wait lines']-0.25
         self._intro_delays['intro thirds'] = self._intro_delays['intro swing']-0.05
         self._intro_delays['intro slightly slower'] = self._intro_delays['intro half time']+0.03
-        self._intro_delays['intro end'] = 2.2
+        self._intro_delays['intro end'] = 2.55
 
         self._intro_lines: list[Line | float | int] = [Line([CharacterSet("The sun", self._intro_delays['intro default delay']),
                                                                   CharacterSet(" says leave\n", self._intro_delays['intro half time']),
@@ -47,18 +49,16 @@ class ExitEnter(Song):
                                                                   CharacterSet(" is some", self._intro_delays['intro half time']),
                                                                   CharacterSet("times more", self._intro_delays['intro half time']),
                                                                   CharacterSet(" than two", self._intro_delays['intro half time']),],
-                                                            self._intro_delays['intro default wait lines']),
-
-                                                       self._intro_delays['intro end']]
+                                                            self._intro_delays['intro default wait lines'], cancel_last_delay=True)]
         #/INTRO
 
         #CHORUS0
         self._chorus0_delays: dict[str, int | float] = {}
 
-        self._chorus0_delays['chorus0 default delay'] = 0.15
+        self._chorus0_delays['chorus0 default delay'] = 0.07
         self._chorus0_delays['chorus0 default wait lines'] = 2.5
 
-        self._chorus0_lines: list[Line | float | int] = [Line([CharacterSet("Everything is made up", self._chorus0_delays['chorus0 default delay']),
+        self._chorus0_lines: list[Line | float | int] = [Line([CharacterSet("\n\nEverything is made up", self._chorus0_delays['chorus0 default delay']),
                                                                     CharacterSet("Everything is made up", self._chorus0_delays['chorus0 default delay']),],
                                                             self._chorus0_delays['chorus0 default wait lines'])]
         #/CHORUS0
@@ -67,16 +67,19 @@ class ExitEnter(Song):
     def _async_sound(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs) -> None:
-            Thread(target=playsound, args=(args[1],), daemon=True).start()
+            pygame.mixer.music.load(args[1])
+            pygame.mixer.music.play()
+
             func(*args, **kwargs)
+
+            while pygame.mixer.music.get_busy():
+                pass
 
         return wrapper
 
     @_async_sound
     def intro(self, filename: str) -> None:
         local_intro_delay: int | float = 20.2
-
-        #self._async_sound(filename)
 
         tsleep(local_intro_delay)
 
